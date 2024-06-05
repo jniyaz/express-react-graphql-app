@@ -1,12 +1,15 @@
+// const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-// const path = require("path");
-// const graphqlHttp = require('graphql-http')
+const { graphqlHTTP } = require("express-graphql");
+
+const graphqlSchema = require("./graphql/schema");
+const graphqlResolver = require("./graphql/resolvers");
+const auth = require("./middlewares/auth");
 
 const app = express();
 app.use(bodyParser.json()); // application/json
-// app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -21,13 +24,33 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(auth);
+
 app.get("/", (req, res) => {
-  res.send("Hello!");
+  res.json({
+    message: "Hello!",
+  });
 });
 
-// app.use('graphql', graphqlHttp())
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema: graphqlSchema,
+    rootValue: graphqlResolver,
+    graphiql: true,
+    formatError(err) {
+      if (!err.originalError) {
+        return err;
+      }
+      const data = err.originalError.data;
+      const message = err.message || "An error occurred.";
+      const code = err.originalError.code || 500;
+      return { message: message, status: code, data: data };
+    },
+  })
+);
 
-// mongo connect and with server
+// mongo connect
 mongoose.connect(`mongodb://localhost:27017/exp_gql_app`).then((res) => {
   app.listen(8080);
 });
