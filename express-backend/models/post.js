@@ -7,11 +7,11 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
-    imageUrl: {
+    content: {
       type: String,
       required: true,
     },
-    content: {
+    imageUrl: {
       type: String,
       required: true,
     },
