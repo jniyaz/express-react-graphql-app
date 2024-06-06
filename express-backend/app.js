@@ -9,7 +9,7 @@ const graphqlResolver = require("./graphql/resolvers");
 const auth = require("./middlewares/auth");
 
 const app = express();
-app.use(bodyParser.json()); // application/json
+app.use(bodyParser.json()); //application/json
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -51,6 +51,6 @@ app.use(
 );
 
 // mongo connect
-mongoose.connect(`mongodb://localhost:27017/exp_gql_app`).then((res) => {
+mongoose.connect(`mongodb://localhost:27017/exp_react_gql_app`).then((res) => {
   app.listen(8080);
 });
