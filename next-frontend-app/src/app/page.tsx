@@ -24,9 +24,9 @@ export default function Home() {
           x-chunk="dashboard-02-chunk-1"
         >
           <div className="flex flex-col items-center p-6 text-center">
-            <h3 className="text-2xl font-bold text-muted-foreground">
+            {/* <h3 className="text-2xl font-bold text-muted-foreground">
               No Details.
-            </h3>
+            </h3> */}
           </div>
         </div>
       </div>
